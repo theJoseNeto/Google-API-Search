@@ -1,0 +1,14 @@
+{
+  "name": "search-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.2",
+    "puppeteer": "^13.0.1"
+  }
+}
