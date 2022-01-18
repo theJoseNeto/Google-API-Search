@@ -1,4 +1,6 @@
-const Browser = require('../browser/index.browser')
+const res = require('express/lib/response');
+const APIError = require('../../errors/Error');
+const Browser = require('../browser/index.browser');
 
 class Search extends Browser {
     // async handleMessage(message){
@@ -7,22 +9,34 @@ class Search extends Browser {
     //    }
 
     // }
+    async search(text){
+        await this.writeTextOnInput(text);
+        await this.clickInSearchButton();
+    }
 
-    async search(text) {
+    async writeTextOnInput(text){
+        await this.page.evaluate((value) => {
+            const input = document.querySelector("input[name='q']");
+            input.value = value;
+            
+        }, text).catch(e => {
+            this.browser.close()   
+            throw new APIError("WriteInputError", e);
+        })
+        
+    }
 
-        this.page.on('load', async () => {
+    async clickInSearchButton() {
 
-            await this.page.evaluate((value) => {
+        await this.page.evaluate(() => {
+            const searchButton = document.querySelector('input[value="Pesquisa Google"]');
+            searchButton.click()
+        })
 
-                    const input = document.querySelector("input[name='q']");
-                    input.value = value;
-                    const searchButton = document.querySelector('input[value="Pesquisa Google"]');
-                    searchButton.click()
-
-                }, text)
-
-                .catch(e => console.log('Erro ao fazer pesquisa'));
-        });
+        .catch(e => {
+            this.browser.close();
+            throw new APIError('Erro ao tentar pesquisar', e);
+            });
 
         await this.page.waitForTimeout(10000);
 
@@ -32,20 +46,21 @@ class Search extends Browser {
 
         let result;
 
-        let pageLoaed = await this.page.on('load', loaded => loaded ? true : false);
-
-        if (pageLoaed) {
-            result = await this.page.evaluate(() => {
+        await this.page.evaluate(() => {
                 const links = [];
+
                 const searchResult = document.querySelectorAll('div.yuRUbf a')
-                for (let i of searchResult) links.push(i.href);
+                for (let i of searchResult) links.push(
+                    i.href);
                 return links;
+            })
+
+            .then(links => result = links)
+
+            .catch(e => {
+                result = new APIError("linkNotFoundError", e);
+                this.browser.close();
             });
-
-        } else {
-
-            result = "Erro ao tentar pesquisar"
-        }
 
         return result;
 
