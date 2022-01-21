@@ -5,6 +5,10 @@ const google = new Search();
 
 const searchRoute = Router()
 
+searchRoute.get("/", (req, res)=>{
+    res.send('Para pesquisar alguma coisa digite "/seach/oQueVoceDesejaPesquisar". ');
+});
+
 searchRoute.get('/search/:message', async (req, res)=> {
     const searchForThis = String(req.params.message);
 

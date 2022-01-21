@@ -4,12 +4,10 @@ const {json, urlencoded} = require('express')
 const cors = require('cors');
 
 const HOST = process.env.HOST
-
-const routes = require("./routes/index.routes");
+const routes = require("./src/routes/index.routes");
 
 app.use(cors());
 app.use(json());
 app.use(urlencoded({extended: true}));
 app.use(routes);
-
-app.listen(HOST);
+app.listen(HOST, ()=> console.log('App is running.'));
