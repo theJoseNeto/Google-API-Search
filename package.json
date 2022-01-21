@@ -10,7 +10,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.2",
-    "puppeteer": "^13.0.1"
+    "puppeteer": "^13.0.1",
+    "dotenv": "^14.2.0"
   },
   "devDependencies": {
     "dotenv": "^14.2.0"
