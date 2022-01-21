@@ -7,7 +7,8 @@ class Browser {
     }
 
     async launchBrowser(headless){
-        this.browser = await ppt.launch({headless: headless, ignoreDefaultArgs: ['--disable-extensions'] })
+        // this.browser = await ppt.launch({args: '--no-sandbox',})
+        this.browser = await ppt.launch({headless:true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
     }
 
     async newPage(url){

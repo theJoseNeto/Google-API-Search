@@ -3,12 +3,7 @@ const APIError = require('../../errors/Error');
 const Browser = require('../browser/index.browser');
 
 class Search extends Browser {
-    // async handleMessage(message){
-    //    if(typeof message == String){
-    //        return
-    //    }
 
-    // }
     async search(text){
         await this.writeTextOnInput(text);
         await this.clickInSearchButton();
@@ -21,7 +16,7 @@ class Search extends Browser {
             
         }, text).catch(e => {
             this.browser.close()   
-            throw new APIError("WriteInputError", e);
+            throw new Error("WriteInputError");
         })
         
     }
@@ -35,7 +30,7 @@ class Search extends Browser {
 
         .catch(e => {
             this.browser.close();
-            throw new APIError('Erro ao tentar pesquisar', e);
+            throw new Error('Erro ao tentar pesquisar');
             });
 
         await this.page.waitForTimeout(10000);
@@ -58,7 +53,7 @@ class Search extends Browser {
             .then(links => result = links)
 
             .catch(e => {
-                result = new APIError("linkNotFoundError", e);
+                result = new Error("linkNotFoundError");
                 this.browser.close();
             });
 
