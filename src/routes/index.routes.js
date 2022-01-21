@@ -8,7 +8,7 @@ const searchRoute = Router()
 searchRoute.get('/search/:message', async (req, res)=> {
     const searchForThis = String(req.params.message);
 
-    await google.launchBrowser();
+    await google.launchBrowser(true); // true = headless / false: not headless; 
     await google.newPage('https://google.com');
     await google.search(searchForThis);
     const bestResults = await google.getBestLink()

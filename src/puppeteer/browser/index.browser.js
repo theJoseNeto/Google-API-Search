@@ -6,8 +6,8 @@ class Browser {
         this.page = null;
     }
 
-    async launchBrowser(){
-        this.browser = await ppt.launch({headless: false, ignoreDefaultArgs: ['--disable-extensions'] })
+    async launchBrowser(headless){
+        this.browser = await ppt.launch({headless: headless, ignoreDefaultArgs: ['--disable-extensions'] })
     }
 
     async newPage(url){
