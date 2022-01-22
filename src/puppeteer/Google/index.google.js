@@ -1,5 +1,4 @@
 const res = require('express/lib/response');
-const APIError = require('../../errors/Error');
 const Browser = require('../browser/index.browser');
 
 class Search extends Browser {
