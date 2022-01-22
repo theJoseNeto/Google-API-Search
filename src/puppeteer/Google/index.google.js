@@ -5,23 +5,27 @@ const Browser = require('../browser/index.browser');
 class Search extends Browser {
 
     async search(text){
+        console.log('Pesquisando.');   
         await this.writeTextOnInput(text);
         await this.clickInSearchButton();
     }
 
     async writeTextOnInput(text){
+        console.log('Escrevendo no input');
+
         await this.page.evaluate((value) => {
             const input = document.querySelector("input[name='q']");
             input.value = value;
             
         }, text).catch(e => {
             this.browser.close()   
-            throw new Error("WriteInputError");
+            throw new Error("Erro ao digitar no input");
         })
         
     }
 
     async clickInSearchButton() {
+        console.log("clicou no botão de pesquisa")
 
         await this.page.evaluate(() => {
             const searchButton = document.querySelector('input[value="Pesquisa Google"]');
@@ -29,7 +33,7 @@ class Search extends Browser {
         })
 
         .catch(e => {
-            this.browser.close();
+            this.browser.close();            
             throw new Error('Erro ao tentar pesquisar');
             });
 
@@ -38,7 +42,8 @@ class Search extends Browser {
     }
 
     async getBestLink() {
-
+        console.log("pegando os links");
+        
         let result;
 
         await this.page.evaluate(() => {
