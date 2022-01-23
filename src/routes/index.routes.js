@@ -14,10 +14,11 @@ searchRoute.get('/search/:message', async (req, res)=> {
 
     await google.launchBrowser();
     await google.newPage('https://google.com');
+    
     await google.search(searchForThis);
     const bestResults = await google.getBestLink()
-
     res.json({result: bestResults});
+    await google.browser.close();
 });
 
 module.exports = searchRoute;
